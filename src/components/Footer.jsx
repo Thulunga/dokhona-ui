@@ -130,10 +130,10 @@ const Footer = () => {
           Aliens.
         </ContactItem>
         <ContactItem>
-          <Phone style={{ marginRight: "10px" }} /> +91 8888888888
+          <Phone style={{ marginRight: "10px" }} /> +91 8638113906
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{ marginRight: "10px" }} /> will_updaye@soon.dev
+          <MailOutline style={{ marginRight: "10px" }} /> thulunga.tb@gmail.com
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>

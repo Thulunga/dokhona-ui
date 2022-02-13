@@ -132,9 +132,11 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get("https://dokhona-api.herokuapp.com/api/products/find/" + id);
+        const res = await publicRequest.get("/products/find/" + id);
         setProduct(res.data);
-      } catch {}
+      } catch(err) {
+        console.log(err);
+      }
     };
     getProduct();
   }, [id]);
@@ -147,12 +149,11 @@ const Product = () => {
     }
   };
 
-  const handleClick = () => {
+  const handleAddToCart = () => {
     dispatch(
       addProduct({ ...product, quantity, color, size })
     );
   };
-  console.log(product);
   return (
     <Container>
       <Navbar />
@@ -164,7 +165,7 @@ const Product = () => {
         <InfoContainer>
           <Title>{product.title}</Title>
           <Desc>{product.desc}</Desc>
-          <Price>$ {product.price}</Price>
+          <Price>Rs {product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
@@ -187,7 +188,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            <Button onClick={handleAddToCart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

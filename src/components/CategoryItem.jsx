@@ -30,7 +30,8 @@ const Info = styled.div`
 `;
 
 const Title = styled.h1`
-    color:white;
+    color: black;
+    font-size: 2em;
     margin-bottom: 20px;
 `;
 

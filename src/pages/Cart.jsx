@@ -9,6 +9,8 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -157,13 +159,13 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-weight: 600;
+  cursor:pointer;
 `;
 
-const Cart = () => {
+const Cart = () => { 
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
-
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -182,6 +184,8 @@ const Cart = () => {
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, history]);
+
+
   return (
     <Container>
       <Navbar />
@@ -189,12 +193,25 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <Link to='/'><TopButton>CONTINUE SHOPPING</TopButton></Link>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Shopping Bag(0)</TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+
+          <StripeCheckout
+              name="Dokhona"
+              image="https://i.graphicmama.com/blog/wp-content/uploads/2020/10/30131032/P-amazing-3D-logo-design-concept-in-20211.jpg"
+              billingAddress
+              shippingAddress
+              description={`Your total is ₹${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <TopButton type="filled">CHECKOUT NOW</TopButton>
+            </StripeCheckout>
+          
         </Top>
         <Bottom>
           <Info>
@@ -207,7 +224,8 @@ const Cart = () => {
                       <b>Product:</b> {product.title}
                     </ProductName>
                     <ProductId>
-                      <b>ID:</b> {product._id}
+                      {/* <b>ID:</b> {product._id} */}
+                      <b>Description:</b> {product.desc}
                     </ProductId>
                     <ProductColor color={product.color} />
                     <ProductSize>
@@ -217,12 +235,14 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    {/* <Add onClick={()=> handleQuantity("add")}/> */}
+                    {/* <Add /> */}
+                    <ProductAmount> Quantity: {product.quantity}</ProductAmount>
+                    {/* <Remove /> */}
+                    {/* <Remove onClick={()=> handleQuantity("rem")}/> */}
                   </ProductAmountContainer>
                   <ProductPrice>
-                    $ {product.price * product.quantity}
+                    Rs. {product.price * product.quantity}
                   </ProductPrice>
                 </PriceDetail>
               </Product>
@@ -233,26 +253,26 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>Rs. {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemPrice>Rs. 40.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice>Rs. -40.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>Rs. {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="Lama Shop"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
+              name="Dokhona"
+              image="https://i.graphicmama.com/blog/wp-content/uploads/2020/10/30131032/P-amazing-3D-logo-design-concept-in-20211.jpg"
               billingAddress
               shippingAddress
-              description={`Your total is $${cart.total}`}
+              description={`Your total is ₹${cart.total}`}
               amount={cart.total * 100}
               token={onToken}
               stripeKey={KEY}
